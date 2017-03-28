@@ -24,6 +24,7 @@
 
 #include <sstream>
 #include <iostream>
+#include <algorithm>
 #include <vector>
 #include <dirent.h>
 #include <math.h>
