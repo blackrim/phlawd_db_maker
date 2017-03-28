@@ -20,6 +20,7 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     link_directories(deps/mac)
 ELSE()
     link_directories(deps/linux)
+    link_directories(/usr/lib/x86_64-linux-gnu)
 ENDIF()
 
 add_executable(phlawd_db_maker ${SOURCE_FILES})
