@@ -12,7 +12,7 @@ If you run into problems, it make be the sqlitewrapper. To fix that, just go int
 ## Usage
 All you need to do to run this is pick the division you want (so `pln` for example) and then run
 `./phlawd_db_maker pln ~/Desktop/pln.db`
-where the second argument is the location.
+where the second argument is the location. The NCBI divisions can be found [here](https://www.ncbi.nlm.nih.gov/genbank/htgs/divisions/). You will want to use the three letter code. 
 
 ## Database structure
 In case you would like to use this for your own tasks, here are the SQLite commands that are called to give you an idea of the tables and indices
