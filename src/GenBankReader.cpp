@@ -52,7 +52,6 @@ void GenBankReader::parse_file(string fl, string db_name){
     string titlest;
     string seqst;
     string locus;
-    string gin;
     string acc;
     string ver;
     string taxid;
@@ -75,11 +74,6 @@ void GenBankReader::parse_file(string fl, string db_name){
 	    }
 	    if(tokens[0] == "VERSION"){
             ver = tokens[1];
-            gin = tokens[2];
-            vector<string> t2;
-            string del2(":");
-            Tokenize(tokens[2],t2,del2);
-            gin = t2[1];
             continue;
 	    }
 	    if(tokens[0].find("/db_xref=\"taxon:")!= string::npos){
@@ -148,10 +142,6 @@ void GenBankReader::parse_file(string fl, string db_name){
 				cout<<"taxid" << endl;
 				deposit = false;
 		//	exit(0);
-		    }else if(gin.size() ==0){
-				cout<<"gin" << endl;
-				deposit = false;
-		//	exit(0);
 		    }else if(acc.size() == 0 || titlest.size() == 0 || ver.size() == 0){
                 deposit = false;
                 cout << "acc titlest ver" << endl;
@@ -164,19 +154,18 @@ void GenBankReader::parse_file(string fl, string db_name){
 				deposit = false;
 		//	exit(0);
 		    }
-		    string sql = "insert into sequence (ncbi_id,locus,accession_id,version_id,identifier,description,title,seq) values (";
+		    string sql = "insert into sequence (ncbi_id,locus,accession_id,version_id,description,title,seq) values (";
 		    sql += taxid+",'";
 		    sql += locus+"','";
             sql += acc+"','";
             sql += ver+"','";
-		    sql += gin+"','";
 		    sql += descrst +"','";
             sql += titlest +"','";
 		    std::transform(seqst.begin(), seqst.end(), seqst.begin(), upper);
 		    sql += seqst+"');";
 		    size_t found = seqst.find_first_of("(),.[]@#$%!+=^&*\"'|-_/{}`~<>\\");
 		    if(found != string::npos){
-			cout << taxid << "," << locus << "," << gin << "," << descrst << endl;
+			cout << taxid << "," << locus << "," << descrst << endl;
 			cout << seqst << endl;
 			exit(0);
 		    }
@@ -188,7 +177,6 @@ void GenBankReader::parse_file(string fl, string db_name){
 		    descrst = "";
 		    locus = "";
 		    taxid = "";
-		    gin = "";
 		    seq = false;
 		    descr = false;
             acc = "";

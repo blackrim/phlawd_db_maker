@@ -85,15 +85,13 @@ bool SQLiteDBController::initiate(){
     query.get_result("CREATE INDEX taxonomy_edited_name on taxonomy(edited_name);");
     query.free_result();
 
-    query.get_result("create table sequence (id INTEGER PRIMARY KEY,ncbi_id INTEGER,locus VARCHAR(128), accession_id VARCHAR(128),version_id VARCHAR(128), identifier VARCHAR(40),description TEXT,title TEXT, seq LONGTEXT);");
+    query.get_result("create table sequence (id INTEGER PRIMARY KEY,ncbi_id INTEGER,locus VARCHAR(128), accession_id VARCHAR(128),version_id VARCHAR(128), description TEXT,title TEXT, seq LONGTEXT);");
     query.free_result();
     query.get_result("CREATE INDEX sequence_ncbi_id on sequence(ncbi_id);");
     query.free_result();
     query.get_result("CREATE INDEX sequence_accession_id on sequence(accession_id);");
     query.free_result();
-    query.get_result("CREATE INDEX sequence_accession_id on sequence(version_id);");
-    query.free_result();
-    query.get_result("CREATE INDEX sequence_identifier on sequence(identifier);");
+    query.get_result("CREATE INDEX sequence_version_id on sequence(version_id);");
     query.free_result();
 
     query.get_result("create table information (id INTEGER PRIMARY KEY, name VARCHAR(128), value VARCHAR(128));");
