@@ -46,10 +46,15 @@ void GenBankReader::parse_file(string fl, string db_name){
     string ln;
     bool descr = false;
     bool seq = false;
+    bool title = false;
+    bool titledone = false;
     string descrst;
+    string titlest;
     string seqst;
     string locus;
     string gin;
+    string acc;
+    string ver;
     string taxid;
     sqlite3 *conn;
     int rc = sqlite3_open(db_name.c_str(), &conn);
@@ -65,46 +70,67 @@ void GenBankReader::parse_file(string fl, string db_name){
 	}
 	if(tokens.size() >= 1){
 	    if(tokens[0] == "LOCUS"){
-		locus = tokens[1];
-		continue;
+		    locus = tokens[1];
+		    continue;
 	    }
 	    if(tokens[0] == "VERSION"){
-		gin = tokens[2];
-		vector<string> t2;
-		string del2(":");
-		Tokenize(tokens[2],t2,del2);
-		gin = t2[1];
-		continue;
+            ver = tokens[1];
+            gin = tokens[2];
+            vector<string> t2;
+            string del2(":");
+            Tokenize(tokens[2],t2,del2);
+            gin = t2[1];
+            continue;
 	    }
 	    if(tokens[0].find("/db_xref=\"taxon:")!= string::npos){
-		vector<string> t2;
-		string del2(":");
-		Tokenize(tokens[0],t2,del2);
-		taxid = t2[1].substr(0,t2[1].size()-1);
-		continue;
+            vector<string> t2;
+            string del2(":");
+            Tokenize(tokens[0],t2,del2);
+            taxid = t2[1].substr(0,t2[1].size()-1);
+            continue;
 	    }
 	    if(tokens[0] == "DEFINITION"){
-		descr = true;
-		string ln2 = ln;
-		TrimSpaces(ln2);
-		descrst += ln2.substr(12,ln2.size()-12);
-		continue;
+            descr = true;
+            string ln2 = ln;
+            TrimSpaces(ln2);
+            descrst += ln2.substr(12,ln2.size()-12);
+            continue;
 	    }
 	    //keep reading the description
 	    if(descr == true){
-		if(tokens[0] == "ACCESSION"){
-		    descr = false;
-		    continue;
-		}else{
-		    string ln2 = ln;
-		    TrimSpaces(ln2);
-		    descrst += " "+ln2;
-		    continue;
-		}
+		    if(tokens[0] == "ACCESSION"){
+                acc = tokens[1];
+		        descr = false;
+		        continue;
+		    }else{
+		        string ln2 = ln;
+		        TrimSpaces(ln2);
+		        descrst += " "+ln2;
+		        continue;
+		    }
 	    }
+        if(tokens[0] == "TITLE" && titledone == false){
+            title = true;
+            titledone = true;
+            string ln2 = ln;
+            TrimSpaces(ln2);
+            titlest += ln2.substr(10,ln2.size()-10);
+            continue;
+        }
+        if(title == true){
+            if (tokens[0] == "JOURNAL"){
+                title = false;
+                continue;
+            }else{
+                string ln2 = ln;
+                TrimSpaces(ln2);
+                titlest += " "+ln2;
+                continue;
+            }
+        }
 	    if(tokens[0] == "ORIGIN" && tokens.size() == 1){
-		seq = true;
-		continue;
+		    seq = true;
+		    continue;
 	    }
 	    //keep reading the sequence
 	    //sequence is always the last thing
@@ -122,11 +148,13 @@ void GenBankReader::parse_file(string fl, string db_name){
 				cout<<"taxid" << endl;
 				deposit = false;
 		//	exit(0);
-		    }else if(gin.size() ==0){
+		    }else if(ver.size() ==0){
 				cout<<"gin" << endl;
 				deposit = false;
 		//	exit(0);
-		    }else if(descrst.size() ==0){
+		    }else if(acc.size() == 0 || titlest.size() == 0 || ver.size() == 0){
+                deposit = false;
+            }else if(descrst.size() ==0){
 				cout<<"descr" << endl;
 				deposit = false;
 		//	exit(0);
@@ -135,11 +163,14 @@ void GenBankReader::parse_file(string fl, string db_name){
 				deposit = false;
 		//	exit(0);
 		    }
-		    string sql = "insert into sequence (ncbi_id,accession_id,identifier,description,seq) values (";
+		    string sql = "insert into sequence (ncbi_id,locus,accession_id,version_id,identifier,description,title,seq) values (";
 		    sql += taxid+",'";
 		    sql += locus+"','";
+            sql += acc+"','";
+            sql += ver+"','";
 		    sql += gin+"','";
 		    sql += descrst +"','";
+            sql += titlest +"','";
 		    std::transform(seqst.begin(), seqst.end(), seqst.begin(), upper);
 		    sql += seqst+"');";
 		    size_t found = seqst.find_first_of("(),.[]@#$%!+=^&*\"'|-_/{}`~<>\\");
@@ -159,6 +190,11 @@ void GenBankReader::parse_file(string fl, string db_name){
 		    gin = "";
 		    seq = false;
 		    descr = false;
+            acc = "";
+            ver = "";
+            titlest = "";
+            title = false;
+            titledone = false;
 //		    break;
 		}else{
 		    for(int j=1;j<tokens.size();j++){
