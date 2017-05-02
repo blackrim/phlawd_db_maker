@@ -148,12 +148,13 @@ void GenBankReader::parse_file(string fl, string db_name){
 				cout<<"taxid" << endl;
 				deposit = false;
 		//	exit(0);
-		    }else if(ver.size() ==0){
+		    }else if(gin.size() ==0){
 				cout<<"gin" << endl;
 				deposit = false;
 		//	exit(0);
 		    }else if(acc.size() == 0 || titlest.size() == 0 || ver.size() == 0){
                 deposit = false;
+                cout << "acc titlest ver" << endl;
             }else if(descrst.size() ==0){
 				cout<<"descr" << endl;
 				deposit = false;
