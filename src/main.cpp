@@ -37,7 +37,7 @@ using namespace std;
 
 int main(int argc, char* argv[]){
     if(argc != 3){
-	cout << "PHLAWD DB MAKER 0.1" << endl;
+	cout << "PHLAWD DB MAKER 0.2" << endl;
 	cout << "you need more arguments." << endl;
 	cout << "usage: PHLAWD division dbloc" << endl;
     }else{
