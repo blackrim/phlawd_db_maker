@@ -4,3 +4,8 @@
 .DS_*
 *.o
 *.d
+CMakeCache
+CMakeFiles
+Makefile
+CMakeCache.txt
+phlawd_db_maker
