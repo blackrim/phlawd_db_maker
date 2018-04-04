@@ -129,7 +129,8 @@ int getdir (string dir, vector<string> &files){
     	 * no dot files
     	 */
     	bool test = false;
-    	if(*(string(dirp->d_name).begin())=='\.')
+    	//if(*(string(dirp->d_name).begin())=='\.')
+        if(*(string(dirp->d_name).begin())=='.')
 	    test = true;
     	if(test == false){
 	    files.push_back(string(dirp->d_name));
