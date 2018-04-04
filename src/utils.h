@@ -52,4 +52,5 @@ void convert_to_phylip(string,string);
 vector<int> get_left_right_exclude(vector<int> * lefts, vector<int> * rights, vector<int> * exlefts, vector<int> * exrights);
 int get_distance_from_child_to_parent(string ncbidb, string child, string parent);
 
+void check_valid_division_code(string & div);
 #endif

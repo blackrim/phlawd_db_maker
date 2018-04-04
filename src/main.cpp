@@ -44,8 +44,11 @@ int main(int argc, char* argv[]){
 
 	string division(argv[1]);
         string dbname(argv[2]);
+        
+        // abort early if division is invalid
+        check_valid_division_code(division);
 
-        cout << "setting up database" << endl;
+        cout << "setting up " << division << " database" << endl;
         bool download = true;
 
         SQLiteDBController * c;
