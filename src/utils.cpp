@@ -129,7 +129,8 @@ int getdir (string dir, vector<string> &files){
     	 * no dot files
     	 */
     	bool test = false;
-    	if(*(string(dirp->d_name).begin())=='\.')
+    	//if(*(string(dirp->d_name).begin())=='\.')
+        if(*(string(dirp->d_name).begin())=='.')
 	    test = true;
     	if(test == false){
 	    files.push_back(string(dirp->d_name));
@@ -239,4 +240,27 @@ vector<string> query_mask(string url){
     vector<string> returngis;
 
     return returngis;
+}
+
+// division codes: https://www.ncbi.nlm.nih.gov/genbank/htgs/divisions/
+// purpose here it to abort early if the provided division code is invalid
+// downstream code expects lowercase div code, so do this prior to checking
+// comments if uppercase
+// exits if invalid
+void check_valid_division_code(string & inDiv) {
+    // currently available codes
+    vector<string> divs = {"BCT", "PRI", "ROD", "MAM", "VRT", "INV", "PLN",
+                           "VRL", "PHG", "RNA", "SYN", "UNA"};
+    string test = inDiv;
+    std::transform(test.begin(),test.end(),test.begin(),::toupper);
+    
+    if(std::find(divs.begin(),divs.end(),test)!=divs.end()){
+        if(inDiv==test){
+            // provided div code was uppercase. change to lowercase
+            std::transform(inDiv.begin(),inDiv.end(),inDiv.begin(),::tolower);
+        }
+    } else {
+        cout<<"invalid ncbi division code provided. see https://www.ncbi.nlm.nih.gov/genbank/htgs/divisions"<<endl;
+        exit(0);
+    }
 }
