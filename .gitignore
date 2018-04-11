@@ -9,3 +9,6 @@ CMakeFiles
 Makefile
 CMakeCache.txt
 phlawd_db_maker
+cmake_install.cmake
+nbproject
+
