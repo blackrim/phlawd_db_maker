@@ -109,6 +109,7 @@ void GenBankReader::parse_file(string fl, string db_name){
             string ln2 = ln;
             TrimSpaces(ln2);
             titlest += ln2.substr(10,ln2.size()-10);
+            std::replace(titlest.begin(),titlest.end(), '\'',' ');
             continue;
         }
         if(title == true){
@@ -119,6 +120,7 @@ void GenBankReader::parse_file(string fl, string db_name){
                 string ln2 = ln;
                 TrimSpaces(ln2);
                 titlest += " "+ln2;
+                std::replace(titlest.begin(),titlest.end(), '\'',' ');
                 continue;
             }
         }
@@ -162,8 +164,9 @@ void GenBankReader::parse_file(string fl, string db_name){
                     cout << seqst << endl;
                     exit(0);
                 }
-                if(deposit == true)
+                if(deposit == true){
                     rc = sqlite3_exec(conn, sql.c_str(), 0, 0, 0);
+                }
                 seqst = "";
                 descrst = "";
                 locus = "";
