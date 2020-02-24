@@ -378,7 +378,7 @@ void SQLiteDBController::load_seqs(string div,bool downl){
     
     // Zoidberg: grab the version itself too why not?
     // this can be read in at some later point to store in the DB
-    cmd = "ftp.ncbi.nlm.nih.gov/genbank/GB_Release_Number";
+    cmd = "wget ftp.ncbi.nlm.nih.gov/genbank/GB_Release_Number";
     system(cmd.c_str());
 }
 
