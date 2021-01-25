@@ -361,7 +361,7 @@ void SQLiteDBController::load_seqs(string div,bool downl){
                 system(cmd.c_str());
                 cout << name << endl;
                 GenBankReader gbr;
-                gbr.parse_file(name,db_name);
+                gbr.parse_file(name_ngz,db_name);
                 remove(name_ngz.c_str());
                 cur += 1;
             }
