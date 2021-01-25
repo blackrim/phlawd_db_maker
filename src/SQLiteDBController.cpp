@@ -349,7 +349,7 @@ void SQLiteDBController::load_seqs(string div,bool downl){
                 string name = "gb"+runall[i]+scur+".seq.gz";
                 string name_ngz = "gb"+runall[i]+scur+".seq";
                 cmd = "wget ftp://ftp.ncbi.nih.gov/genbank/"+name;
-                cout << "downloading gb" << name << endl;
+                cout << "downloading " << name << endl;
                 system(cmd.c_str());
                 struct stat buffer;
                 if ((stat(name.c_str(), &buffer) == 0) == false){
