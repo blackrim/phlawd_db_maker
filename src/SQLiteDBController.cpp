@@ -50,7 +50,7 @@ using namespace std;
 #include "utils.h"
 
 SQLiteDBController::SQLiteDBController(string dbn):db_name(dbn),division(""),
-		count(0){
+                count(0){
 }
 
 template <class T>
@@ -65,8 +65,8 @@ bool SQLiteDBController::initiate(){
     //check to see if the database exists
     ifstream ifile(db_name.c_str());
     if(ifile){
-	cout << "the file: "+db_name+" seems to exist" << endl;
-	return false;
+        cout << "the file: "+db_name+" seems to exist" << endl;
+        return false;
     }
     Database conn(db_name);
     Query query(conn);
@@ -102,7 +102,7 @@ bool SQLiteDBController::initiate(){
 static int callback(void *NotUsed, int argc, char **argv, char **azColName){
     int i;
     for(i=0; i<argc; i++){
-	printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+        printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
     }
     printf("\n");
     return 0;
@@ -112,8 +112,8 @@ string SQLiteDBController::create_name(string & tfilen){
     size_t found;
     found = tfilen.find("\"");
     while(found!=string::npos){
-	tfilen.replace(found,1,"'");
-	found = tfilen.find("\"",found+1);
+        tfilen.replace(found,1,"'");
+        found = tfilen.find("\"",found+1);
     }
     return tfilen;
 }
@@ -122,83 +122,83 @@ string SQLiteDBController::create_edited_name(string & tfilen){
     size_t found;
     found = tfilen.find(" ");
     while(found!=string::npos){
-	tfilen.replace(found,1,"_");
-	found = tfilen.find(" ",found+2);
+        tfilen.replace(found,1,"_");
+        found = tfilen.find(" ",found+2);
     }
     //(take out the parenthetical stuff too)
     found = tfilen.find("(");
     while(found!=string::npos){
-	tfilen.replace(found,1,"_");
-	found = tfilen.find("(",found+1);
+        tfilen.replace(found,1,"_");
+        found = tfilen.find("(",found+1);
     }
     found = tfilen.find(")");
     while(found!=string::npos){
-	tfilen.replace(found,1,"_");
-	found = tfilen.find(")",found+1);
+        tfilen.replace(found,1,"_");
+        found = tfilen.find(")",found+1);
     }
     found = tfilen.find("\"");
     while(found!=string::npos){
-	tfilen.replace(found,1,"_");
-	found = tfilen.find("\"",found+1);
+        tfilen.replace(found,1,"_");
+        found = tfilen.find("\"",found+1);
     }
     found = tfilen.find("'");
     while(found!=string::npos){
-	tfilen.replace(found,1,"_");
-	found = tfilen.find("'",found+1);
+        tfilen.replace(found,1,"_");
+        found = tfilen.find("'",found+1);
     }
     found = tfilen.find(".");
     while(found!=string::npos){
-	tfilen.replace(found,1,"_");
-	found = tfilen.find(".",found+1);
+        tfilen.replace(found,1,"_");
+        found = tfilen.find(".",found+1);
     }
     found = tfilen.find("&");
     while(found!=string::npos){
-	tfilen.replace(found,1,"_");
-	found = tfilen.find("&",found+1);
+        tfilen.replace(found,1,"_");
+        found = tfilen.find("&",found+1);
     }
     found = tfilen.find(",");
     while(found!=string::npos){
-	tfilen.replace(found,1,"_");
-	found = tfilen.find(",",found+1);
+        tfilen.replace(found,1,"_");
+        found = tfilen.find(",",found+1);
     }
     found = tfilen.find("\\");
     while(found!=string::npos){
-	tfilen.replace(found,1,"_");
-	found = tfilen.find("\\",found+1);
+        tfilen.replace(found,1,"_");
+        found = tfilen.find("\\",found+1);
     }
     found = tfilen.find("/");
     while(found!=string::npos){
-	tfilen.replace(found,1,"_");
-	found = tfilen.find("/",found+1);
+        tfilen.replace(found,1,"_");
+        found = tfilen.find("/",found+1);
     }
     found = tfilen.find(";");
     while(found!=string::npos){
-	tfilen.replace(found,1,"_");
-	found = tfilen.find(";",found+1);
+        tfilen.replace(found,1,"_");
+        found = tfilen.find(";",found+1);
     }
     return tfilen;
 }
 
 /*ednm = spls[1].replace('\"',"_").strip()
-		ednm = ednm.replace("\'","_")
-		ednm = ednm.replace("\\","_")
-		ednm = ednm.replace("/","_")
-		ednm = ednm.replace("(","_")
-		ednm = ednm.replace(")","_")
-		ednm = ednm.replace(".","_")
-		ednm = ednm.replace("&","_")
-		ednm = ednm.replace(",","_")
-		ednm = ednm.replace(" ","_")
+                ednm = ednm.replace("\'","_")
+                ednm = ednm.replace("\\","_")
+                ednm = ednm.replace("/","_")
+                ednm = ednm.replace("(","_")
+                ednm = ednm.replace(")","_")
+                ednm = ednm.replace(".","_")
+                ednm = ednm.replace("&","_")
+                ednm = ednm.replace(",","_")
+                ednm = ednm.replace(" ","_")
 */
 void SQLiteDBController::load_seqs(string div,bool downl){
     cout << "loading taxonomy" << endl;
     if (downl == true){
-	const char * cmd = "wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz";
-	cout << "downloading with wget" << endl;
-	system(cmd);
-	cmd = "tar -xzvf taxdump.tar.gz";
-	cout << "untaring" << endl;
-	system(cmd);
+        const char * cmd = "wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz";
+        cout << "downloading with wget" << endl;
+        system(cmd);
+        cmd = "tar -xzvf taxdump.tar.gz";
+        cout << "untaring" << endl;
+        system(cmd);
     }
     //read the nodes.dmp
     map<string,string> rank;
@@ -207,17 +207,17 @@ void SQLiteDBController::load_seqs(string div,bool downl){
     string line;
     vector<string> tokens;
     while(getline(infile,line)){
-	string del("|");
-	tokens.clear();
-	Tokenize(line, tokens, del);
-	if(tokens.size() > 1){
-	    for(int i=0;i<tokens.size();i++){
-		TrimSpaces(tokens[i]);
-	    }
-	    string ncbi_id = tokens[0];
-	    rank[ncbi_id] = tokens[2];
-	    parent_id[ncbi_id] = tokens[1];
-	}
+        string del("|");
+        tokens.clear();
+        Tokenize(line, tokens, del);
+        if(tokens.size() > 1){
+            for(int i=0;i<tokens.size();i++){
+                TrimSpaces(tokens[i]);
+            }
+            string ncbi_id = tokens[0];
+            rank[ncbi_id] = tokens[2];
+            parent_id[ncbi_id] = tokens[1];
+        }
     }
     infile.close();
     //read the names.dmp
@@ -229,34 +229,34 @@ void SQLiteDBController::load_seqs(string div,bool downl){
     sqlite3_exec(conn, "BEGIN TRANSACTION", NULL, NULL, NULL);
     count = 0;
     while(getline(infile2,line)){
-	if (count % 100000 == 0){
-	    cout << count << endl;
-	}
-	string del("|");
-	tokens.clear();
-	Tokenize(line, tokens, del);
-	if(tokens.size() > 1){
-	    for(int i=0;i<tokens.size();i++){
-		TrimSpaces(tokens[i]);
-	    }
-	    string gin = tokens[0];
-	    string nm = create_name(tokens[1]);//need to double quote the single quotes and backslash the quotes
-	    string nm_class = tokens[3];
-	    string ednm = create_edited_name(tokens[1]);//need to edit the names
-	    string sql = "insert into taxonomy (ncbi_id,name,name_class,node_rank,parent_ncbi_id,edited_name) values (";
-	    sql += gin+",\"";
-	    sql += nm+"\",'";
-	    sql += nm_class+"','";
-	    sql += rank[gin]+"',";
-	    sql += parent_id[gin]+",'";
-	    sql += ednm+"');";
-	    //query.execute(sql);
-	    rc = sqlite3_exec(conn, sql.c_str(), 0, 0, 0);
-	    //uncomment to get the names that don't commit, mostly bad quotes
-//	    if (rc != 0)
-//		cout << sql << endl;
-	}
-	count += 1;
+        if (count % 100000 == 0){
+            cout << count << endl;
+        }
+        string del("|");
+        tokens.clear();
+        Tokenize(line, tokens, del);
+        if(tokens.size() > 1){
+            for(int i=0;i<tokens.size();i++){
+                TrimSpaces(tokens[i]);
+            }
+            string gin = tokens[0];
+            string nm = create_name(tokens[1]);//need to double quote the single quotes and backslash the quotes
+            string nm_class = tokens[3];
+            string ednm = create_edited_name(tokens[1]);//need to edit the names
+            string sql = "insert into taxonomy (ncbi_id,name,name_class,node_rank,parent_ncbi_id,edited_name) values (";
+            sql += gin+",\"";
+            sql += nm+"\",'";
+            sql += nm_class+"','";
+            sql += rank[gin]+"',";
+            sql += parent_id[gin]+",'";
+            sql += ednm+"');";
+            //query.execute(sql);
+            rc = sqlite3_exec(conn, sql.c_str(), 0, 0, 0);
+            //uncomment to get the names that don't commit, mostly bad quotes
+//            if (rc != 0)
+//                cout << sql << endl;
+        }
+        count += 1;
     }
     sqlite3_exec(conn, "COMMIT TRANSACTION", NULL, NULL, NULL);
     infile2.close();
@@ -268,16 +268,16 @@ void SQLiteDBController::load_seqs(string div,bool downl){
     string cmd = "select ncbi_id,parent_ncbi_id from taxonomy where name_class = 'scientific name';";
     query.get_result(cmd);
     while(query.fetch_row()){
-	int nc = query.getval();
-	int pc = query.getval();
-	if(parent_ncbi_map.count(pc) > 0){
-	    parent_ncbi_map[pc].push_back(nc);
-	}else{
-	    vector<int> tv;
-	    tv.push_back(nc);
-	    parent_ncbi_map[pc] = tv;
+        int nc = query.getval();
+        int pc = query.getval();
+        if(parent_ncbi_map.count(pc) > 0){
+            parent_ncbi_map[pc].push_back(nc);
+        }else{
+            vector<int> tv;
+            tv.push_back(nc);
+            parent_ncbi_map[pc] = tv;
 
-	}
+        }
     }
     //remove files
     remove("citations.dmp");
@@ -285,6 +285,7 @@ void SQLiteDBController::load_seqs(string div,bool downl){
     remove("gc.prt");
     remove("gencode.dmp");
     remove("readme.txt");
+
 
     //get the root and send to rebuild
     count = 0;
@@ -294,46 +295,77 @@ void SQLiteDBController::load_seqs(string div,bool downl){
     sqlite3_exec(conn, "COMMIT TRANSACTION", NULL, NULL, NULL);
     sqlite3_close(conn);
 
+    //END THE TAXONOMIC LOADING
+
     cout << "loading seqs" << endl;
     division = div;
     vector<string> runall;
     if(division == "met" || division == "all"){
-	runall.push_back("pri");runall.push_back("rod");runall.push_back("mam");runall.push_back("vrt");runall.push_back("inv");
-	if (division == "all")
-	    runall.push_back("pln");runall.push_back("bct");
+        runall.push_back("pri");runall.push_back("rod");runall.push_back("mam");runall.push_back("vrt");runall.push_back("inv");
+        if (division == "all")
+            runall.push_back("pln");runall.push_back("bct");
     }else{
-	runall.push_back(division);
+        runall.push_back(division);
     }
-    if (downl == true){
-	string cmd;
-	for(int i = 0;i<runall.size();i++){
-	    cmd = "wget ftp://ftp.ncbi.nih.gov/genbank/gb"+runall[i]+"*.seq.gz";
-	    cout << "downloading with wget" << endl;
-	    system(cmd.c_str());
-	    cmd = "gunzip -d gb"+runall[i]+"*.seq.gz";
-	    cout << "uncompressing" << endl;
-	    system(cmd.c_str());
-	}
-    }else{
-	for(int i = 0;i<runall.size();i++){
-	    cmd = "gunzip -d gb"+runall[i]+"*.seq.gz";
-	    cout << "uncompressing" << endl;
-	    system(cmd.c_str());
-	}
-    }
-    vector<string> file_names;
-    cout << "getting file names" << endl;
-    getdir(".",file_names);
-    for(int i=0;i<file_names.size();i++){
-	for(int j=0;j<runall.size();j++){
-	    if(file_names[i].find("gb"+runall[j]) != string::npos && file_names[i].substr(file_names[i].size()-4,4)==".seq"){
-		string filen = file_names[i];
-		cout << filen << endl;
-		GenBankReader gbr;
-		gbr.parse_file(filen,db_name);
-		remove(filen.c_str());
-	    }
-	}
+    if (downl == false){
+/*        string cmd; //old downl == true
+        for(int i = 0;i<runall.size();i++){
+            cmd = "wget ftp://ftp.ncbi.nih.gov/genbank/gb"+runall[i]+"*.seq.gz";
+            cout << "downloading with wget" << endl;
+            system(cmd.c_str());
+            cmd = "gunzip -d gb"+runall[i]+"*.seq.gz";
+            cout << "uncompressing" << endl;
+            system(cmd.c_str());
+        }
+    }else{*/
+        for(int i = 0;i<runall.size();i++){
+            cmd = "gunzip -d gb"+runall[i]+"*.seq.gz";
+            cout << "uncompressing" << endl;
+            system(cmd.c_str());
+        }
+        vector<string> file_names;
+        cout << "getting file names" << endl;
+        getdir(".",file_names);
+        for(int i=0;i<file_names.size();i++){
+            for(int j=0;j<runall.size();j++){
+                if(file_names[i].find("gb"+runall[j]) != string::npos && file_names[i].substr(file_names[i].size()-4,4)==".seq"){
+                    string filen = file_names[i];
+                    cout << filen << endl;
+                    GenBankReader gbr;
+                    gbr.parse_file(filen,db_name);
+                    remove(filen.c_str());
+                }
+            }
+        }
+    }else{ //downl == true
+    //changing this to process each file
+        string cmd;
+        for(int i = 0;i<runall.size();i++){
+            bool going = true;
+            int cur = 1;
+            while(going){
+            //cmd = "wget ftp://ftp.ncbi.nih.gov/genbank/gb"+runall[i]+"*.seq.gz";
+                string scur = to_string(cur);
+                string name = "gb"+runall[i]+scur+".seq.gz";
+                string name_ngz = "gb"+runall[i]+scur+".seq";
+                cmd = "wget ftp://ftp.ncbi.nih.gov/genbank/"+name;
+                cout << "downloading gb" << name << endl;
+                system(cmd.c_str());
+                struct stat buffer;
+                if ((stat(name.c_str(), &buffer) == 0) == false){
+                    going = false;
+                    break;
+                }
+                cmd = "gunzip -d "+name;
+                cout << "uncompressing" << endl;
+                system(cmd.c_str());
+                cout << name << endl;
+                GenBankReader gbr;
+                gbr.parse_file(name,db_name);
+                remove(name_ngz.c_str());
+                cur += 1;
+            }
+        }
     }
     
     cout << "merging old names with new names" << endl;
@@ -342,24 +374,24 @@ void SQLiteDBController::load_seqs(string div,bool downl){
     sqlite3_exec(conn, "BEGIN TRANSACTION", NULL, NULL, NULL);
     count = 0;
     while(getline(infile3,line)){
-	if (count % 100000 == 0){
-	    cout << count << endl;
-	}
-	string del("|");
-	tokens.clear();
-	Tokenize(line, tokens, del);
-	for(int i = 0;i<tokens.size();i++){TrimSpaces(tokens[i]);}
-	if(tokens.size() > 1){
-	    string sql = "update sequence set ncbi_id = ";
-	    sql += tokens[1];
-	    sql += " where ncbi_id = ";
-	    sql += tokens[0];
-	    sql += ";";
-	    rc = sqlite3_exec(conn, sql.c_str(), 0, 0, 0);
-	    if (rc != 0)
-		cout << sql << endl;
-	}
-	count += 1;
+        if (count % 100000 == 0){
+            cout << count << endl;
+        }
+        string del("|");
+        tokens.clear();
+        Tokenize(line, tokens, del);
+        for(int i = 0;i<tokens.size();i++){TrimSpaces(tokens[i]);}
+        if(tokens.size() > 1){
+            string sql = "update sequence set ncbi_id = ";
+            sql += tokens[1];
+            sql += " where ncbi_id = ";
+            sql += tokens[0];
+            sql += ";";
+            rc = sqlite3_exec(conn, sql.c_str(), 0, 0, 0);
+            if (rc != 0)
+                cout << sql << endl;
+        }
+        count += 1;
     }
     infile3.close();
     sqlite3_exec(conn, "COMMIT TRANSACTION", NULL, NULL, NULL);
@@ -377,20 +409,20 @@ int SQLiteDBController::rebuild_tree(int gid,int lft,sqlite3 * conn){
     int rgt = lft + 1;
     vector<int>res;
     if (parent_ncbi_map.count(gid) > 0){
-	res = parent_ncbi_map[gid];
+        res = parent_ncbi_map[gid];
     }
     for (int i = 0;i < res.size();i++){
-	if (res[i] == gid)
-	    continue;
-	else
-	    rgt = rebuild_tree(res[i],rgt,conn);
+        if (res[i] == gid)
+            continue;
+        else
+            rgt = rebuild_tree(res[i],rgt,conn);
     }
     string updcmd = "update taxonomy set left_value = "+to_string(lft)+", right_value = "+to_string(rgt)+" where ncbi_id = "+to_string(gid)+";"; //and name_class = scientific name
     //cout << updcmd << endl;
     //exit(0);
     int rc = sqlite3_exec(conn, updcmd.c_str(), 0, 0, 0);
     if (count % 100000 == 0)
-	cout << count << endl;
+        cout << count << endl;
     count += 1;
     return rgt + 1;
 }
