@@ -402,6 +402,16 @@ void SQLiteDBController::load_seqs(string div,bool downl){
     remove("nodes.dmp");
     remove("delnodes.dmp");
     cout << "finished loading" << endl;
+    
+    // get release info
+    cmd = "wget ftp.ncbi.nlm.nih.gov/genbank/README.genbank";
+    cout << "getting release info" << endl;
+    system(cmd.c_str());
+    
+    // Zoidberg: grab the version itself too why not?
+    // this can be read in at some later point to store in the DB
+    cmd = "wget ftp.ncbi.nlm.nih.gov/genbank/GB_Release_Number";
+    system(cmd.c_str());
 }
 
 //private
